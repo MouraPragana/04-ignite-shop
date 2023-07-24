@@ -1,4 +1,4 @@
-import { GetStaticProps } from 'next'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import Image from 'next/image'
 import Stripe from 'stripe'
 import { stripe } from '../../lib/stripe'
@@ -33,6 +33,16 @@ export default function Product({ product }: ProductProps) {
       </ProductDetails>
     </ProductContainer>
   )
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [{ params: { id: 'prod_N5vyVp9OaJ555g' } }],
+    fallback: false,
+    //false - 404.
+    //true  - tentar executar getStaticProp - vai mostrar HTML e depois executar o getStaticProps por trás dos panos.
+    //blocking - bloqueia html até getStaticProps estiver finalizado.
+  }
 }
 
 export const getStaticProps: GetStaticProps = async ({
