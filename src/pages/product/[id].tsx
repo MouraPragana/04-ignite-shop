@@ -15,10 +15,15 @@ interface ProductProps {
     imageUrl: string
     price: string
     description: string
+    defaultPriceId: string
   }
 }
 
 export default function Product({ product }: ProductProps) {
+  function handleByProduct() {
+    console.log(product.defaultPriceId)
+  }
+
   return (
     <ProductContainer>
       <ImageContainer>
@@ -29,7 +34,7 @@ export default function Product({ product }: ProductProps) {
         <h1>{product.name}</h1>
         <span>{product.price}</span>
         <p>{product.description}</p>
-        <button>Comprar agora</button>
+        <button onClick={handleByProduct}>Comprar agora</button>
       </ProductDetails>
     </ProductContainer>
   )
@@ -38,7 +43,7 @@ export default function Product({ product }: ProductProps) {
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [{ params: { id: 'prod_N5vyVp9OaJ555g' } }],
-    fallback: false,
+    fallback: 'blocking',
     //false - 404.
     //true  - tentar executar getStaticProp - vai mostrar HTML e depois executar o getStaticProps por trás dos panos.
     //blocking - bloqueia html até getStaticProps estiver finalizado.
@@ -69,6 +74,7 @@ export const getStaticProps: GetStaticProps = async ({
           currency: 'BRL',
         }).format(price.unit_amount / 100),
         description: product.description,
+        defaultPriceId: price.id,
       },
     },
     revalidate: 60 * 60 * 1, // 1 hour
