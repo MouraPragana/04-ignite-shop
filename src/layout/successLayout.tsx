@@ -9,7 +9,7 @@ export function SuccessLayout({ children }: { children: ReactNode }) {
     <>
       <Header>
         <Link href="/">
-          <Image src={logoImg} alt="" />
+          <Image src={logoImg} alt="" priority={true} />
         </Link>
       </Header>
       {children}

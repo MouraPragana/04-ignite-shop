@@ -27,7 +27,7 @@ export default function Product({ product }: ProductProps) {
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
     useState<boolean>(false)
 
-  async function handleByProduct() {
+  async function handleBuyProduct() {
     try {
       setIsCreatingCheckoutSession(true)
       const response = await axios.post('/api/checkout', {
@@ -51,7 +51,13 @@ export default function Product({ product }: ProductProps) {
 
       <ProductContainer>
         <ImageContainer>
-          <Image src={product.imageUrl} width={520} height={480} alt="" />
+          <Image
+            src={product.imageUrl}
+            width={520}
+            height={480}
+            alt=""
+            priority={true}
+          />
         </ImageContainer>
 
         <ProductDetails>
@@ -59,7 +65,7 @@ export default function Product({ product }: ProductProps) {
           <span>{product.price}</span>
           <p>{product.description}</p>
           <button
-            onClick={handleByProduct}
+            onClick={handleBuyProduct}
             disabled={isCreatingCheckoutSession}
           >
             Colocar na Sacola

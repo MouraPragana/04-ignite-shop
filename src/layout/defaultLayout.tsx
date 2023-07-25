@@ -1,32 +1,38 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 import { PiHandbagBold } from 'react-icons/pi'
 import logoImg from '../assets/logo.svg'
 import { CartModal } from '../components/cartModal'
-import { Header, IconContainer } from '../styles/layouts/defaultLayout'
+import {
+  Header,
+  IconContainer,
+  ModalOverlay,
+} from '../styles/layouts/defaultLayout'
 
 export function DefaultLayout({ children }: { children: ReactNode }) {
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+
   return (
     <>
       <Header>
         <Link href="/">
-          <Image src={logoImg} alt="" />
+          <Image src={logoImg} alt="" priority={true} />
         </Link>
 
-        <Dialog.Root>
+        <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
+          {isOpen && <ModalOverlay />}
+          <CartModal />
+
           <Dialog.Trigger asChild>
             <IconContainer>
               <PiHandbagBold size={24} color="#C4C4CC" />
-
               <p>1</p>
             </IconContainer>
           </Dialog.Trigger>
-          <CartModal />
         </Dialog.Root>
       </Header>
-
       {children}
     </>
   )

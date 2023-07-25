@@ -7,12 +7,14 @@ export const ProductContainer = styled('main', {
   gap: '4rem',
   maxWidth: 1180,
   margin: '0 auto',
+  minHeight: 'calc((100vh - 120px) * 0.8)',
+  alignContent: 'center',
 })
 
 export const ImageContainer = styled('div', {
   width: '100%',
   maxWidth: 576,
-  height: 656,
+  height: 500,
   background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
   borderRadius: 8,
   padding: '0.25rem',

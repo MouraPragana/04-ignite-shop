@@ -1,11 +1,14 @@
 import * as Dialog from '@radix-ui/react-dialog'
+import { Content, Overlay } from '../styles/components/cartModal'
 
 export function CartModal() {
   return (
     <Dialog.Portal>
-      <Dialog.Overlay>
-        <Dialog.Content>Villarinho</Dialog.Content>
-      </Dialog.Overlay>
+      <Overlay>
+        <Content>
+          <h1>oieoie oie</h1>
+        </Content>
+      </Overlay>
     </Dialog.Portal>
   )
 }
