@@ -1,9 +1,9 @@
-import { styled } from '../../styles'
+import { styled } from '..'
 
 export const Header = styled('header', {
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'center',
+  justifyContent: 'space-between',
   padding: '2rem 0',
   width: '100%',
   height: '120px',
@@ -26,7 +26,7 @@ export const IconContainer = styled('button', {
     cursor: 'pointer',
   },
 
-  div: {
+  p: {
     position: 'absolute',
     top: -12,
     right: -6,

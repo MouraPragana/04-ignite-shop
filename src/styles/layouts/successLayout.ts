@@ -1,9 +1,9 @@
-import { styled } from '../../styles'
+import { styled } from '..'
 
 export const Header = styled('header', {
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'space-between',
+  justifyContent: 'center',
   padding: '2rem 0',
   width: '100%',
   height: '120px',
