@@ -1,20 +1,18 @@
+import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
-import Image from 'next/image'
-import logoImg from '../assets/logo.svg'
+import { ReactElement, ReactNode } from 'react'
 import { globalStyles } from '../styles/global'
-import { Container, Header } from '../styles/pages/app'
-import Link from 'next/link'
+
+export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
 
 globalStyles()
-export default function App({ Component, pageProps }: AppProps) {
-  return (
-    <Container>
-      <Header>
-        <Link href="/">
-          <Image src={logoImg} alt="" />
-        </Link>
-      </Header>
-      <Component {...pageProps} />
-    </Container>
-  )
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? ((page) => page)
+  return getLayout(<Component {...pageProps} />)
 }

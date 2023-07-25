@@ -4,9 +4,12 @@ import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
+import { ReactElement } from 'react'
+import { PiHandbagBold } from 'react-icons/pi'
 import Stripe from 'stripe'
+import { DefaultLayout } from '../layout/defaultLayout'
 import { stripe } from '../lib/stripe'
-import { HomeContainer, Product } from '../styles/pages/home'
+import { HomeContainer, IconContainer, Product } from '../styles/pages/home'
 
 interface HomeProps {
   products: {
@@ -42,8 +45,13 @@ export default function Home({ products }: HomeProps) {
               <Product className="keen-slider__slide">
                 <Image src={product.imageUrl} width={520} height={480} alt="" />
                 <footer>
-                  <strong>{product.name}</strong>
-                  <span>{product.price}</span>
+                  <div>
+                    <strong>{product.name}</strong>
+                    <span>{product.price}</span>
+                  </div>
+                  <IconContainer>
+                    <PiHandbagBold size={32} color="#fff" />
+                  </IconContainer>
                 </footer>
               </Product>
             </Link>
@@ -79,4 +87,7 @@ export const getStaticProps: GetStaticProps = async () => {
     },
     revalidate: 60 * 60 * 2, // 2 hours
   }
+}
+Home.getLayout = function getLayout(page: ReactElement) {
+  return <DefaultLayout>{page}</DefaultLayout>
 }

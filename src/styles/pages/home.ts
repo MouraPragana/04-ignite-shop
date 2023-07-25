@@ -40,15 +40,21 @@ export const Product = styled('div', {
     opacity: 0,
     transition: 'all 0.2s ease-in-out',
 
-    strong: {
-      fontSize: '$lg',
-      color: '$gray100',
-    },
+    div: {
+      display: 'flex',
+      flexDirection: 'column',
 
-    span: {
-      fontSize: '$xl',
-      fontWeight: 'bold',
-      color: '$green300',
+      strong: {
+        fontSize: '$lg',
+        color: '$gray100',
+        marginBottom: 4,
+      },
+
+      span: {
+        fontSize: '$xl',
+        fontWeight: 'bold',
+        color: '$green300',
+      },
     },
   },
 
@@ -58,4 +64,10 @@ export const Product = styled('div', {
       opacity: 1,
     },
   },
+})
+
+export const IconContainer = styled('div', {
+  background: '$green300',
+  padding: 12,
+  borderRadius: 6,
 })

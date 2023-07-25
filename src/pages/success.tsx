@@ -5,6 +5,8 @@ import Link from 'next/link'
 import Stripe from 'stripe'
 import { stripe } from '../lib/stripe'
 import { ImageContainer, SuccessContainer } from '../styles/pages/success'
+import { ReactElement } from 'react'
+import { SuccessLayout } from '../layout/successLayout'
 
 interface SuccessProps {
   customerName: string
@@ -68,4 +70,8 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       },
     },
   }
+}
+
+Success.getLayout = function getLayout(page: ReactElement) {
+  return <SuccessLayout>{page}</SuccessLayout>
 }

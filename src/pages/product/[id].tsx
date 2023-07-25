@@ -2,8 +2,9 @@ import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import { useState } from 'react'
+import { ReactElement, useState } from 'react'
 import Stripe from 'stripe'
+import { DefaultLayout } from '../../layout/defaultLayout'
 import { stripe } from '../../lib/stripe'
 import {
   ImageContainer,
@@ -61,7 +62,7 @@ export default function Product({ product }: ProductProps) {
             onClick={handleByProduct}
             disabled={isCreatingCheckoutSession}
           >
-            Comprar agora
+            Colocar na Sacola
           </button>
         </ProductDetails>
       </ProductContainer>
@@ -108,4 +109,8 @@ export const getStaticProps: GetStaticProps = async ({
     },
     revalidate: 60 * 60 * 1, // 1 hour
   }
+}
+
+Product.getLayout = function getLayout(page: ReactElement) {
+  return <DefaultLayout>{page}</DefaultLayout>
 }
