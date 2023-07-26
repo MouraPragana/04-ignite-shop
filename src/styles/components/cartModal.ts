@@ -67,6 +67,16 @@ export const ItemContainer = styled('div', {
   '&::-webkit-scrollbar-thumb': {
     backgroundColor: '$gray300',
   },
+
+  variants: {
+    hasBoxShadow: {
+      true: {
+        boxShadow:
+          'inset 0px 10px 10px -10px #000000, inset 0px -10px 10px -10px #000000',
+      },
+      false: { boxShadow: 'none' },
+    },
+  },
 })
 
 export const ContentTitle = styled(Dialog.Title, {
@@ -82,6 +92,19 @@ export const Item = styled('div', {
 
   '& + div': {
     marginTop: 24,
+  },
+
+  variants: {
+    hasManyItens: {
+      true: {
+        '&:first-child': {
+          marginTop: 10,
+        },
+        '&:last-child': {
+          marginBottom: 10,
+        },
+      },
+    },
   },
 
   div: {

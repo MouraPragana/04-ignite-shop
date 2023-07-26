@@ -26,8 +26,8 @@ export function CartModal() {
             <AiOutlineClose size={24} />
           </CloseButton>
 
-          <ItemContainer>
-            <Item>
+          <ItemContainer hasBoxShadow={false}>
+            <Item hasManyItens={false}>
               <ImageContainer>
                 <Image
                   src="https://files.stripe.com/links/MDB8YWNjdF8xTUxrME5Cd0VkcmhZNnlzfGZsX3Rlc3RfUGJpUlhvOGdkSkw3elZRZmt4MnR4T3pp00AHbJ1sL9"
@@ -46,7 +46,7 @@ export function CartModal() {
               </ItemDetails>
             </Item>
 
-            <Item>
+            <Item hasManyItens={false}>
               <ImageContainer>
                 <Image
                   src="https://files.stripe.com/links/MDB8YWNjdF8xTUxrME5Cd0VkcmhZNnlzfGZsX3Rlc3RfUGJpUlhvOGdkSkw3elZRZmt4MnR4T3pp00AHbJ1sL9"
@@ -65,7 +65,7 @@ export function CartModal() {
               </ItemDetails>
             </Item>
 
-            <Item>
+            <Item hasManyItens={false}>
               <ImageContainer>
                 <Image
                   src="https://files.stripe.com/links/MDB8YWNjdF8xTUxrME5Cd0VkcmhZNnlzfGZsX3Rlc3RfUGJpUlhvOGdkSkw3elZRZmt4MnR4T3pp00AHbJ1sL9"
@@ -84,7 +84,7 @@ export function CartModal() {
               </ItemDetails>
             </Item>
 
-            <Item>
+            <Item hasManyItens={false}>
               <ImageContainer>
                 <Image
                   src="https://files.stripe.com/links/MDB8YWNjdF8xTUxrME5Cd0VkcmhZNnlzfGZsX3Rlc3RfUGJpUlhvOGdkSkw3elZRZmt4MnR4T3pp00AHbJ1sL9"
@@ -103,7 +103,7 @@ export function CartModal() {
               </ItemDetails>
             </Item>
 
-            <Item>
+            {/* <Item hasManyItens={true}>
               <ImageContainer>
                 <Image
                   src="https://files.stripe.com/links/MDB8YWNjdF8xTUxrME5Cd0VkcmhZNnlzfGZsX3Rlc3RfUGJpUlhvOGdkSkw3elZRZmt4MnR4T3pp00AHbJ1sL9"
@@ -120,26 +120,7 @@ export function CartModal() {
                 </div>
                 <button>Remover</button>
               </ItemDetails>
-            </Item>
-
-            <Item>
-              <ImageContainer>
-                <Image
-                  src="https://files.stripe.com/links/MDB8YWNjdF8xTUxrME5Cd0VkcmhZNnlzfGZsX3Rlc3RfUGJpUlhvOGdkSkw3elZRZmt4MnR4T3pp00AHbJ1sL9"
-                  width={94.788}
-                  height={94.788}
-                  alt=""
-                  priority={true}
-                />
-              </ImageContainer>
-              <ItemDetails>
-                <div>
-                  <p>Camiseta Beyond the Limits</p>
-                  <span>R$ 79,90</span>
-                </div>
-                <button>Remover</button>
-              </ItemDetails>
-            </Item>
+            </Item> */}
           </ItemContainer>
 
           <Footer>
