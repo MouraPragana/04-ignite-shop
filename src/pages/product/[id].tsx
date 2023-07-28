@@ -1,9 +1,11 @@
-import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { ReactElement, useState } from 'react'
 import Stripe from 'stripe'
+import { useShoppingCart } from 'use-shopping-cart'
+import { FailedSnackBar } from '../../components/failedSnacBar'
+import { SuccessSnackBar } from '../../components/successSnackBar'
 import { DefaultLayout } from '../../layout/defaultLayout'
 import { stripe } from '../../lib/stripe'
 import {
@@ -16,32 +18,38 @@ interface ProductProps {
   product: {
     id: string
     name: string
-    imageUrl: string
-    price: string
+    image: string
+    price: number
     description: string
-    defaultPriceId: string
+    currency: string
+    price_id: string
   }
 }
 
 export default function Product({ product }: ProductProps) {
-  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
-    useState<boolean>(false)
+  const { addItem, cartDetails } = useShoppingCart()
+  const [openError, setOpenError] = useState<boolean>(false)
+  const [openSuccess, setOpenSuccess] = useState<boolean>(false)
 
-  async function handleBuyProduct() {
-    try {
-      setIsCreatingCheckoutSession(true)
-      const response = await axios.post('/api/checkout', {
-        priceId: product.defaultPriceId,
-      })
+  function handleBuyProduct() {
+    // Eu só quero que a pessoa compre no máximo uma unidade de camisa por compra.
+    const itemOnCart = Object.values(cartDetails ?? {}).some(
+      (item) => item.id === product.id
+    )
 
-      const { checkoutUrl } = response.data
-
-      window.location.href = checkoutUrl
-    } catch (err) {
-      setIsCreatingCheckoutSession(false)
-      alert('Falha ao redirecionar ao checkout!')
+    // Caso não tenha esse item no carrinho.
+    if (!itemOnCart) {
+      setOpenSuccess(true)
+      addItem(product, { count: 1 })
+    } else {
+      setOpenError(true)
     }
   }
+
+  const productPriceFormated = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(product.price / 100)
 
   return (
     <>
@@ -49,10 +57,22 @@ export default function Product({ product }: ProductProps) {
         <title>{`${product.name} | Ignite Shop`}</title>
       </Head>
 
+      <SuccessSnackBar
+        openSuccess={openSuccess}
+        message="Produto adicionado ao carrinho com sucesso."
+        setOpenSuccess={setOpenSuccess}
+      />
+
+      <FailedSnackBar
+        openError={openError}
+        setOpenError={setOpenError}
+        message="Produto já está no carrinho de compras !"
+      />
+
       <ProductContainer>
         <ImageContainer>
           <Image
-            src={product.imageUrl}
+            src={product.image}
             width={520}
             height={480}
             alt=""
@@ -62,14 +82,9 @@ export default function Product({ product }: ProductProps) {
 
         <ProductDetails>
           <h1>{product.name}</h1>
-          <span>{product.price}</span>
+          <span>{productPriceFormated}</span>
           <p>{product.description}</p>
-          <button
-            onClick={handleBuyProduct}
-            disabled={isCreatingCheckoutSession}
-          >
-            Colocar na Sacola
-          </button>
+          <button onClick={handleBuyProduct}>Colocar na Sacola</button>
         </ProductDetails>
       </ProductContainer>
     </>
@@ -104,13 +119,11 @@ export const getStaticProps: GetStaticProps = async ({
       product: {
         id: product.id,
         name: product.name,
-        imageUrl: product.images[0],
-        price: new Intl.NumberFormat('pt-BR', {
-          style: 'currency',
-          currency: 'BRL',
-        }).format(price.unit_amount / 100),
+        image: product.images[0],
+        price: price.unit_amount,
         description: product.description,
-        defaultPriceId: price.id,
+        currency: price.currency,
+        price_id: price.id,
       },
     },
     revalidate: 60 * 60 * 1, // 1 hour
