@@ -2,21 +2,32 @@ import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import Stripe from 'stripe'
-import { stripe } from '../lib/stripe'
-import { ImageContainer, SuccessContainer } from '../styles/pages/success'
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
+import { useShoppingCart } from 'use-shopping-cart'
 import { SuccessLayout } from '../layout/successLayout'
+import { stripe } from '../lib/stripe'
+import {
+  ImageContainer,
+  Images,
+  SuccessContainer,
+} from '../styles/pages/success'
 
 interface SuccessProps {
   customerName: string
-  product: {
+  products: {
     name: string
-    imageUrl: string
-  }
+    images: string[]
+  }[]
 }
 
-export default function Success({ customerName, product }: SuccessProps) {
+export default function Success({ customerName, products }: SuccessProps) {
+  const { clearCart } = useShoppingCart()
+
+  useEffect(() => {
+    clearCart()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <>
       <Head>
@@ -26,20 +37,32 @@ export default function Success({ customerName, product }: SuccessProps) {
 
       <SuccessContainer>
         <h1>Compra efetuada !</h1>
-        <ImageContainer>
-          <Image
-            src={product.imageUrl}
-            width={120}
-            height={110}
-            alt=""
-            priority={true}
-          />
-        </ImageContainer>
+
+        <Images>
+          {products.map((product) => (
+            <ImageContainer
+              key={product.name}
+              moreThanOneImage={products.length > 1}
+            >
+              <Image
+                src={product.images[0]}
+                width={130.175}
+                height={132.9}
+                alt=""
+                priority={true}
+              />
+            </ImageContainer>
+          ))}
+        </Images>
 
         <p>
           Uhuul, <strong>{customerName}</strong>, sua
-          <strong> {product.name} </strong>
-          já está a caminho da sua casa.
+          {products.length > 1 ? (
+            <span> compra de {products.length} camisetas </span>
+          ) : (
+            <strong> {products[0].name} </strong>
+          )}
+          <span>já está a caminho da sua casa.</span>
         </p>
 
         <Link href="/">Voltar ao cátalogo</Link>
@@ -65,15 +88,13 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   })
 
   const customerName = session.customer_details.name
-  const product = session.line_items.data[0].price.product as Stripe.Product
+  // const product = session.line_items.data[0].price.product as Stripe.Product
+  const products = session.line_items.data.map((item) => item.price.product)
 
   return {
     props: {
       customerName,
-      product: {
-        name: product.name,
-        imageUrl: product.images[0],
-      },
+      products,
     },
   }
 }
