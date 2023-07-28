@@ -179,8 +179,15 @@ export const Footer = styled('footer', {
     lineHeight: 1.6,
     color: '$white',
     transition: 'all 0.2s',
+    display: 'flex',
+    justifyContent: 'center',
 
-    '&:hover': {
+    '&[disabled]': {
+      cursor: ' not-allowed',
+      background: '$green700',
+    },
+
+    '&:not(:disabled):hover': {
       backgroundColor: '$green300',
     },
   },
